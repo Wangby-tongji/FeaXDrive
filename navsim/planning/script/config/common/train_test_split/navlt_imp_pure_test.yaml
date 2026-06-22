@@ -1,0 +1,4 @@
+defaults:
+  - scene_filter: navlt_imp_pure_test
+
+data_split: test

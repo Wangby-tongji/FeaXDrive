@@ -1,0 +1,88 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Runtime outputs
+navsim/exp/
+outputs/
+output/
+logs/
+wandb/
+lightning_logs/
+events.out.tfevents*
+*.log
+*.out
+*.err
+log.txt
+
+# Data / caches / generated artifacts
+*.pkl
+*.pickle
+*.npy
+*.npz
+*.gz
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.csv
+
+# Model weights / checkpoints
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+
+# Local packages / backups
+backup/
+source_snapshots/
+_release_packages/
+_github_packages/
+_code_packages/
+tree.txt
+tree(*).txt
+*_tree_*.txt
+*_sha256_*.txt
+*_manifest_*.txt
+
+# Local secrets
+.env
+*.env
+
+# Local project outputs
+navsim/exp/
+backup/
+source_snapshots/
+_release_packages/
+_github_packages/
+_code_packages/
+__pycache__/
+*.pyc
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+*.pkl
+*.pickle
+*.npy
+*.npz
+*.gz
+*.tar
+*.tar.gz
+*.zip
+*.csv
+*.log
+*.out
+*.err
+wandb/
+outputs/

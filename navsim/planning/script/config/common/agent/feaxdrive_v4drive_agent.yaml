@@ -1,0 +1,54 @@
+_target_: navsim.agents.feaxdrive.feaxdrive_agent_entry_v4drive.FeaXDriveAgent
+_convert_: 'all'
+
+trajectory_sampling:
+  _target_: nuplan.planning.simulation.trajectory.trajectory_sampling.TrajectorySampling
+  _convert_: 'all'
+  time_horizon: 4
+  interval_length: 0.5
+
+checkpoint_path: ''
+vlm_path: ''
+cam_type: 'single'
+vlm_type: 'internvl'
+dit_type: 'small'
+sampling_method: 'ddim'
+cache_mode: false
+cache_hidden_state: true
+metric_cache_path: ''
+reference_policy_checkpoint: ''
+vlm_size: 'large'
+grpo: false
+lr: 1e-4
+train_backbone: false
+planner_variant: standard
+
+diffusion_pred_type: 'x0'
+
+# ---- Projection-based feasibility constraints ----
+
+# ---- Training-time feasibility losses ----
+
+# ---- Logging ----
+
+# ---- Drivable-area x0-guidance, inference-time ----
+use_drivable_guidance: false
+drivable_guidance_last_k: 3
+drivable_guidance_step_size: 0.05
+drivable_guidance_margin_m: 0.30
+drivable_guidance_beta_m: 0.20
+drivable_guidance_oob_sdf_m: -10.0
+drivable_guidance_power: 1.0
+drivable_guidance_heading_scale: 0.1
+drivable_guidance_only_offroad: false
+drivable_guidance_offroad_eps_m: 0.0
+
+# ---- Online drivable SDF rasterization ----
+drivable_sdf_x_min: -10.0
+drivable_sdf_x_max: 80.0
+drivable_sdf_y_min: -30.0
+drivable_sdf_y_max: 30.0
+drivable_sdf_resolution: 0.20
+drivable_sdf_clip: 50.0
+drivable_sdf_source: data_map
+drivable_sdf_map_radius: 80.0

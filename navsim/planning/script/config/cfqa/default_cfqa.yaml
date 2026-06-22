@@ -1,0 +1,32 @@
+hydra:
+  run:
+    dir: ${output_dir}
+  output_subdir: ${output_dir}/code/hydra
+  searchpath:
+    - pkg://navsim.planning.script.config.common
+  job:
+    chdir: False
+
+defaults:
+  - default_common
+  - default_evaluation
+  - agent: recogdrive_agent
+  - _self_
+
+# Required by default_evaluation
+experiment_name: ???
+
+# CFQA generation
+navlt_index_csv: ${oc.env:NAVLT_INDEX_CSV}
+auto_tokens_from_index: true        # if scene_filter.tokens is empty, fill from index.csv split
+dataset_split: ${train_test_split.data_split}
+only_navlt_tokens: true
+
+# output
+output_filename: navlt_imp_cfqa_conversations.jsonl
+
+# modes to generate per ego_token
+modes: [factual, unknown, delta]
+
+evidence:
+  dense_threshold: 8

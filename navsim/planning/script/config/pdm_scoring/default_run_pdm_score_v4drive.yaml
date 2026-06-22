@@ -1,0 +1,56 @@
+hydra:
+  run:
+    dir: ${output_dir}
+  output_subdir: ${output_dir}/code/hydra           # Store hydra's config breakdown here for debugging
+  searchpath:                                       # Only <exp_dir> in these paths are discoverable
+    - pkg://navsim.planning.script.config.common 
+  job:
+    chdir: False
+
+cache_path: ${oc.env:NAVSIM_EXP_ROOT}/training_cache_transfuser
+use_cache_without_dataset: false # load the training samples from the cache. scene-filter will be ignored
+force_cache_computation: true
+
+defaults:
+  - default_common
+  - default_evaluation
+  - default_scoring_parameters
+  - agent: constant_velocity_agent
+  - _self_
+  - override train_test_split: navtest
+
+metric_cache_path: ${oc.env:NAVSIM_EXP_ROOT}/metric_cache # path to metric cache
+
+
+# Optional extra validation for projection-based diffusion: compute speed/acc/jerk
+# and violation statistics and log them alongside PDM scores.
+dynamics_eval:
+  enable: false
+  dt: 0.5
+  v_max: 25.0
+  a_max: 9.0
+  j_max: 10.0
+  # curvature / lateral-acc checks (scheme B)
+  kappa_max: 0.166
+  # More physical, speed-adaptive curvature bound:
+  #   kappa_max_adapt(t) = min(kappa_geo_max, a_lat_max / v(t)^2)
+  kappa_geo_max: 0.166
+  kappa_adapt: false
+  a_lat_max: 6.0
+  smooth_ksize: 5
+
+teacher:
+  teacher_cache_path: ''           # REQUIRED for teacher generation script
+  num_candidates: 6
+  seed: 0
+  w_drv: 1.0
+  w_dyn: 1.0
+  w_smooth: 0.2
+  w_prog: 0.5
+  drv_margin_m: 0.30
+  drv_beta_m: 0.20
+  dt: ${dynamics_eval.dt}
+  kappa_max: null
+  kappa_geo_max: ${dynamics_eval.kappa_geo_max}
+  a_lat_max: ${dynamics_eval.a_lat_max}
+  kappa_adapt: ${dynamics_eval.kappa_adapt}
