@@ -1,4 +1,4 @@
-# FeaXDrive 全流程复现 README
+# FeaXDrive 全流程 README
 
 本文档用于复现当前已经跑通的 FeaXDrive 链路，重点是命令、路径、配置和实验调度。当前复现闭环包括：
 
@@ -632,25 +632,6 @@ grep -n "checkpoint_callbacks\|filename=\"epoch" -A30 \
 filename="epoch-{epoch:03d}"
 monitor=None
 save_last=True
-```
-
-### 7.4 FA-GRPO eval 不应污染标准 scorer
-
-确认：
-
-```bash
-grep -n "pdm_comfort_metrics" \
-  navsim/planning/simulation/planner/pdm_planner/scoring/pdm_scorer.py
-
-grep -n "feaxdrive_fagrpo_comfort_metrics" \
-  navsim/planning/simulation/planner/pdm_planner/scoring/feaxdrive_fagrpo_scorer.py
-```
-
-标准 scorer 不应引用：
-
-```text
-pdm_comfort_metrics_rl
-feaxdrive_fagrpo_comfort_metrics
 ```
 
 ---
