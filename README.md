@@ -262,7 +262,6 @@ navsim/planning/script/
 - PDF: https://arxiv.org/pdf/2604.12656
 - DOI: https://doi.org/10.48550/arXiv.2604.12656
 - Google Scholar: https://scholar.google.com/scholar?q=FeaXDrive%3A+Feasibility-aware+Trajectory-Centric+Diffusion+Planning
-- Semantic Scholar: https://www.semanticscholar.org/search?q=FeaXDrive%20Feasibility-aware%20Trajectory-Centric%20Diffusion%20Planning&sort=relevance
 
 ## Acknowledgements
 
