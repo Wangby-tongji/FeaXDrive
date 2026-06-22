@@ -28,6 +28,10 @@ This repository contains the cleaned NAVSIM implementation of the paper:
 
 End-to-end diffusion planning has strong potential for autonomous driving, but generated trajectories may still violate trajectory-level feasibility: they can be locally irregular, kinematically infeasible, or inconsistent with the drivable area. FeaXDrive addresses this problem by moving feasibility modeling into **clean trajectory space**.
 
+<div align="center">
+  <img src="assets/images/frame.png" width="95%">
+</div>
+
 FeaXDrive treats the predicted clean trajectory as the unified object throughout training, sampling, and post-training:
 
 1. **Trajectory-centric diffusion planning**: predict the clean future trajectory instead of only operating in noise space.
