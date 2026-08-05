@@ -41,7 +41,7 @@ export VLM_CKPT=/path/to/ReCogDrive-VLM-2B
 
 ```bash
 source ~/.bashrc
-conda activate navsim-wby
+conda activate feaxdrive
 ```
 
 快速检查：

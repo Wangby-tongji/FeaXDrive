@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 # Copy this file to scripts/envs/env_local.sh and modify the paths.
+# The local copy is intentionally ignored by Git.
+
+# Conda environment created by environment.yml. Override if needed.
+export CONDA_ENV="${CONDA_ENV:-feaxdrive}"
 
 # Repository root
-export FEAXDRIVE_ROOT="/path/to/FeaXDrive"
-export NAVSIM_DEVKIT_ROOT="${FEAXDRIVE_ROOT}"
-export PYTHONPATH="${FEAXDRIVE_ROOT}:${PYTHONPATH:-}"
+export FEAX_ROOT="/path/to/FeaXDrive"
+export NAVSIM_DEVKIT_ROOT="${FEAX_ROOT}"
+export PYTHONPATH="${FEAX_ROOT}:${PYTHONPATH:-}"
 
 # NAVSIM / OpenScene data root. Expected structure:
 # ${OPENSCENE_DATA_ROOT}/navsim_logs/{trainval,test}

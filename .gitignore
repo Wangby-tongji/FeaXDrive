@@ -58,6 +58,7 @@ tree(*).txt
 # Local secrets
 .env
 *.env
+scripts/envs/env_local.sh
 
 # Local project outputs
 navsim/exp/

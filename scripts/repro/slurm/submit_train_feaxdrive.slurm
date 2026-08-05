@@ -7,22 +7,14 @@
 #SBATCH --cpus-per-task=28
 #SBATCH --mem=256G
 #SBATCH --time=72:00:00
-#SBATCH --output=/path/to/FeaXDrive/navsim/exp/logs/%x-%j.out
-#SBATCH --error=/path/to/FeaXDrive/navsim/exp/logs/%x-%j.err
+#SBATCH --output=slurm-%x-%j.out
+#SBATCH --error=slurm-%x-%j.err
 
 set -eo pipefail
 
-cd /path/to/FeaXDrive
-mkdir -p navsim/exp/logs
-
-set +u
-source ~/.bashrc
-conda activate navsim-wby
-set -u
-
-if [ -f scripts/envs/env_local.sh ]; then
-  source scripts/envs/env_local.sh
-fi
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/feax_env.sh"
+cd "${FEAX_ROOT}"
+mkdir -p "${NAVSIM_EXP_ROOT}/logs"
 
 # ======================================================================
 # FeaXDrive paper training scheduler
@@ -41,15 +33,10 @@ fi
 #   you intentionally want to resume/finetune.
 # ======================================================================
 
-export FEAX_ROOT="/path/to/FeaXDrive"
-export NAVSIM_DEVKIT_ROOT="${FEAX_ROOT}"
-export NAVSIM_EXP_BASE="${FEAX_ROOT}/navsim/exp"
-export PYTHONPATH="${FEAX_ROOT}:${PYTHONPATH:-}"
-
-export OPENSCENE_DATA_ROOT="${OPENSCENE_DATA_ROOT:-/path/to/navdata}"
+export OPENSCENE_DATA_ROOT="${OPENSCENE_DATA_ROOT:-}"
 export NUPLAN_MAP_VERSION="${NUPLAN_MAP_VERSION:-nuplan-maps-v1.0}"
-export NUPLAN_MAPS_ROOT="${NUPLAN_MAPS_ROOT:-/path/to/navdata/maps/nuplan-maps-v1.0}"
-export VLM_CKPT="${VLM_CKPT:-/path/to/ReCogDrive-VLM-2B}"
+export NUPLAN_MAPS_ROOT="${NUPLAN_MAPS_ROOT:-}"
+export VLM_CKPT="${VLM_CKPT:-}"
 
 export TOKENIZERS_PARALLELISM=false
 export NCCL_DEBUG="${NCCL_DEBUG:-WARN}"
@@ -70,7 +57,7 @@ USER_LR="${LR:-}"
 LR="${LR:-1e-4}"
 SEED="${SEED:-0}"
 NUM_WORKERS="${NUM_WORKERS:-8}"
-HIDDEN_CACHE="${HIDDEN_CACHE:-/path/to/navcache/navtrain_hidden_state}"
+HIDDEN_CACHE="${HIDDEN_CACHE:-${NAVSIM_EXP_BASE}/cache_navtrain_hidden_state}"
 USE_CACHE_WITHOUT_DATASET="${USE_CACHE_WITHOUT_DATASET:-true}"
 
 # Paper IL-stage training defaults.
@@ -212,8 +199,8 @@ if [ "${MODE}" = "fa" ]; then
 fi
 echo "============================================================"
 
-test -d "${OPENSCENE_DATA_ROOT}"
-test -d "${NUPLAN_MAPS_ROOT}"
+feax_require_dir OPENSCENE_DATA_ROOT
+feax_require_dir NUPLAN_MAPS_ROOT
 test -d "${HIDDEN_CACHE}"
 
 if [ -n "${INIT_CKPT}" ]; then

@@ -1,4 +1,4 @@
-name: navsim
+name: feaxdrive
 channels:
   - conda-forge
 dependencies:

@@ -7,8 +7,8 @@
 #SBATCH --cpus-per-task=7
 #SBATCH --mem=128G
 #SBATCH --time=48:00:00
-#SBATCH --output=/path/to/FeaXDrive/navsim/exp/logs/%x-%j.out
-#SBATCH --error=/path/to/FeaXDrive/navsim/exp/logs/%x-%j.err
+#SBATCH --output=slurm-%x-%j.out
+#SBATCH --error=slurm-%x-%j.err
 
 set -eo pipefail
 
@@ -33,28 +33,14 @@ set -eo pipefail
 # - data_map drivable guidance does not require a persistent SDF cache.
 # ======================================================================
 
-cd /path/to/FeaXDrive
-mkdir -p navsim/exp/logs
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/feax_env.sh"
+cd "${FEAX_ROOT}"
+mkdir -p "${NAVSIM_EXP_ROOT}/logs"
 
-set +u
-source ~/.bashrc
-conda activate navsim-wby
-set -u
-
-if [ -f scripts/envs/env_local.sh ]; then
-  source scripts/envs/env_local.sh
-fi
-
-export FEAX_ROOT="${FEAX_ROOT:-/path/to/FeaXDrive}"
-export NAVSIM_DEVKIT_ROOT="${NAVSIM_DEVKIT_ROOT:-${FEAX_ROOT}}"
-export NAVSIM_EXP_BASE="${NAVSIM_EXP_BASE:-${FEAX_ROOT}/navsim/exp}"
-export NAVSIM_EXP_ROOT="${NAVSIM_EXP_ROOT:-${NAVSIM_EXP_BASE}}"
-export PYTHONPATH="${FEAX_ROOT}:${PYTHONPATH:-}"
-
-export OPENSCENE_DATA_ROOT="${OPENSCENE_DATA_ROOT:-/path/to/navdata}"
+export OPENSCENE_DATA_ROOT="${OPENSCENE_DATA_ROOT:-}"
 export NUPLAN_MAP_VERSION="${NUPLAN_MAP_VERSION:-nuplan-maps-v1.0}"
-export NUPLAN_MAPS_ROOT="${NUPLAN_MAPS_ROOT:-/path/to/navdata/maps/nuplan-maps-v1.0}"
-export VLM_CKPT="${VLM_CKPT:-/path/to/ReCogDrive-VLM-2B}"
+export NUPLAN_MAPS_ROOT="${NUPLAN_MAPS_ROOT:-}"
+export VLM_CKPT="${VLM_CKPT:-}"
 # Agent used only for hidden-state cache generation.
 HIDDEN_AGENT="${HIDDEN_AGENT:-feaxdrive_v4drive_agent}"
 
@@ -75,7 +61,7 @@ TRAIN_METRIC_SPLIT="${TRAIN_METRIC_SPLIT:-navtrain}"
 EVAL_SPLIT="${SPLIT:-${EVAL_SPLIT:-navtest}}"
 
 # Paths.
-HIDDEN_CACHE="${HIDDEN_CACHE:-/path/to/navcache/navtrain_hidden_state}"
+HIDDEN_CACHE="${HIDDEN_CACHE:-${NAVSIM_EXP_BASE}/cache_navtrain_hidden_state}"
 METRIC_CACHE_TRAIN="${METRIC_CACHE_TRAIN:-${NAVSIM_EXP_BASE}/navlt_driverl/metric_cache}"
 METRIC_CACHE_EVAL="${METRIC_CACHE_EVAL:-${NAVSIM_EXP_BASE}/metric_cache_${EVAL_SPLIT}}"
 
@@ -107,10 +93,10 @@ echo "EVAL_SPLIT=${EVAL_SPLIT}"
 echo "METRIC_CACHE_EVAL=${METRIC_CACHE_EVAL}"
 echo "============================================================"
 
-test -d "${FEAX_ROOT}"
-test -d "${OPENSCENE_DATA_ROOT}"
-test -d "${NUPLAN_MAPS_ROOT}"
-test -d "${VLM_CKPT}"
+feax_require_dir FEAX_ROOT
+feax_require_dir OPENSCENE_DATA_ROOT
+feax_require_dir NUPLAN_MAPS_ROOT
+feax_require_dir VLM_CKPT
 
 cache_status() {
   echo "==== Cache status ===="

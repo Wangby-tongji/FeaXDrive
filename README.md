@@ -92,14 +92,26 @@ hidden-state cache
 ## Installation
 
 ```bash
-git clone https://github.com/Wangby-tongji/FeaXDrive_2026.git
-cd FeaXDrive_2026
+git clone https://github.com/Wangby-tongji/FeaXDrive.git
+cd FeaXDrive
 
 conda env create -f environment.yml
-conda activate navsim-wby
+conda activate feaxdrive
 
 pip install -e .
 ```
+
+Before running cache, training, or evaluation jobs, create an untracked local
+environment file and set the paths for your machine:
+
+```bash
+cp scripts/envs/env_template.sh scripts/envs/env_local.sh
+# Edit scripts/envs/env_local.sh, then:
+source scripts/envs/env_local.sh
+```
+
+`env_local.sh` is ignored by Git. Keep dataset, model, checkpoint, cache, and
+experiment-output paths in that local file rather than committing them.
 
 If you need to fine-tune or run the InternVL tools:
 
@@ -112,7 +124,7 @@ pip install -r internvl_chat/internvl_chat.txt
 Download NAVSIM following the official NAVSIM instructions. Then configure:
 
 ```bash
-export FEAX_ROOT=/path/to/FeaXDrive_2026
+export FEAX_ROOT=/path/to/FeaXDrive
 export NAVSIM_DEVKIT_ROOT=${FEAX_ROOT}
 export NAVSIM_EXP_ROOT=${FEAX_ROOT}/navsim/exp
 export PYTHONPATH=${FEAX_ROOT}:${PYTHONPATH:-}

@@ -7,32 +7,19 @@
 #SBATCH --cpus-per-task=28
 #SBATCH --mem=256G
 #SBATCH --time=24:00:00
-#SBATCH --output=/path/to/FeaXDrive/navsim/exp/logs/%x-%j.out
-#SBATCH --error=/path/to/FeaXDrive/navsim/exp/logs/%x-%j.err
+#SBATCH --output=slurm-%x-%j.out
+#SBATCH --error=slurm-%x-%j.err
 
 set -eo pipefail
 
-cd /path/to/FeaXDrive
-mkdir -p navsim/exp/logs
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/feax_env.sh"
+cd "${FEAX_ROOT}"
+mkdir -p "${NAVSIM_EXP_ROOT}/logs"
 
-set +u
-source ~/.bashrc
-conda activate navsim-wby
-set -u
-
-if [ -f scripts/envs/env_local.sh ]; then
-  source scripts/envs/env_local.sh
-fi
-
-export FEAX_ROOT="/path/to/FeaXDrive"
-export NAVSIM_DEVKIT_ROOT="${FEAX_ROOT}"
-export NAVSIM_EXP_ROOT="${FEAX_ROOT}/navsim/exp"
-export PYTHONPATH="${FEAX_ROOT}:${PYTHONPATH:-}"
-
-export OPENSCENE_DATA_ROOT="/path/to/navdata"
+export OPENSCENE_DATA_ROOT="${OPENSCENE_DATA_ROOT:-}"
 export NUPLAN_MAP_VERSION="nuplan-maps-v1.0"
-export NUPLAN_MAPS_ROOT="/path/to/navdata/maps/nuplan-maps-v1.0"
-export VLM_CKPT="${VLM_CKPT:-/path/to/ReCogDrive-VLM-2B}"
+export NUPLAN_MAPS_ROOT="${NUPLAN_MAPS_ROOT:-}"
+export VLM_CKPT="${VLM_CKPT:-}"
 
 export OMP_NUM_THREADS="${OMP_NUM_THREADS:-7}"
 export CUDA_LAUNCH_BLOCKING="${CUDA_LAUNCH_BLOCKING:-0}"
@@ -159,8 +146,8 @@ echo "EXP_NAME=${EXP_NAME}"
 echo "============================================================"
 
 ls -lh "${CKPT}"
-test -d "${OPENSCENE_DATA_ROOT}"
-test -d "${NUPLAN_MAPS_ROOT}"
+feax_require_dir OPENSCENE_DATA_ROOT
+feax_require_dir NUPLAN_MAPS_ROOT
 
 if [ ! -d "${METRIC_CACHE}" ] || [ "$(find "${METRIC_CACHE}" -type f 2>/dev/null | wc -l)" -lt 10 ]; then
   echo "Metric cache not found or too small: ${METRIC_CACHE}"

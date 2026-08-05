@@ -15,7 +15,7 @@ cd /path/to/FeaXDrive
 Create or activate the environment used for NAVSIM / FeaXDrive:
 
 ```bash
-conda activate navsim-wby
+conda activate feaxdrive
 ```
 
 Install the project in editable mode:
