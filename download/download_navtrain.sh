@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 wget -c https://huggingface.co/datasets/OpenDriveLab/OpenScene/resolve/main/openscene-v1.1/openscene_metadata_trainval.tgz
 tar -xzf openscene_metadata_trainval.tgz
 rm openscene_metadata_trainval.tgz
@@ -17,20 +20,4 @@ for split in {1..4}; do
     rm -rf current_split_${split}
 done
 
-# for split in {1..3}; do
-#     aria2c -c -x 4 -s 4 -k 1M \
-#       -o "navtrain_history_${split}.tgz" \
-#         "https://s3.eu-central-1.amazonaws.com/avg-projects-2/navsim/navtrain_history_${split}.tgz"
-    # echo "Extracting file navtrain_history_${split}.tgz"
-    # tar -xzf navtrain_history_${split}.tgz
-    # rm navtrain_history_${split}.tgz
-
-    # rsync -rv history_split_${split}/* trainval_sensor_blobs/trainval
-    # rm -rf history_split_${split}
-done
-
-for ; do
-    tar -xzf navtrain_current_${split}.tgz
-    rsync -rv current_split_${split}/* sensor_blobs/trainval
-    rm -rf current_split_${split}
-done
+# The public NAVSIM release no longer requires the historical sensor archives.

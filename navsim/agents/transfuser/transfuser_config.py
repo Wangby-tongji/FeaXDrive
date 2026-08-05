@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 from nuplan.common.maps.abstract_map import SemanticMapLayer
@@ -14,6 +14,7 @@ class TransfuserConfig:
     trajectory_sampling: TrajectorySampling = TrajectorySampling(time_horizon=4, interval_length=0.5)
 
     image_architecture: str = "resnet34"
+    image_encoder_checkpoint: Optional[str] = None
     lidar_architecture: str = "resnet34"
 
     latent: bool = False

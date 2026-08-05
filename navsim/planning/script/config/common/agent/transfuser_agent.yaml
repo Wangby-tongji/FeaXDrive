@@ -12,6 +12,7 @@ config:
     interval_length: 0.5
 
   latent: False
+  image_encoder_checkpoint: null
 
-checkpoint_path: '/high_perf_store3/world-model/yongkangli/data/NAVSIM/navsim-main/pytorch_model.bin'
+checkpoint_path: null
 lr: 1e-4

@@ -21,8 +21,13 @@ class TransfuserBackbone(nn.Module):
 
         super().__init__()
         self.config = config
-        model_config = _cfg(url='', file='/high_perf_store3/world-model/yongkangli/data/NAVSIM/navsim-main/pytorch_model.bin')
-        self.image_encoder = timm.create_model(config.image_architecture, pretrained=True, features_only=True, pretrained_cfg=model_config)
+        model_config = _cfg(url="", file=config.image_encoder_checkpoint or "")
+        self.image_encoder = timm.create_model(
+            config.image_architecture,
+            pretrained=bool(config.image_encoder_checkpoint),
+            features_only=True,
+            pretrained_cfg=model_config,
+        )
         if config.use_ground_plane:
             in_channels = 2 * config.lidar_seq_len
         else:

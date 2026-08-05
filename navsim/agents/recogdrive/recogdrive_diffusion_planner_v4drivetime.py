@@ -106,8 +106,8 @@ class GRPOConfig:
     clip_advantage_upper_quantile: float = 1.0
     gamma_denoising: float = 0.6
     
-    metric_cache_path: str = "/path/to/metric_cache_train"
-    reference_policy_checkpoint: str = "/path/to/IL_Model.ckpt"
+    metric_cache_path: str = ""
+    reference_policy_checkpoint: str = ""
     scorer_config: PDMScorerConfig = field(default_factory=lambda: PDMScorerConfig(
         progress_weight=10.0, ttc_weight=5.0, comfortable_weight=2.0
     ))

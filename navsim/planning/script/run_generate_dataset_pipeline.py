@@ -58,6 +58,13 @@ logger = logging.getLogger(__name__)
 CONFIG_PATH = "config/training"
 CONFIG_NAME = "default_training"
 
+
+def _require_vqa_root() -> str:
+    root = os.environ.get("FEAX_VQA_ROOT")
+    if not root:
+        raise RuntimeError("Set FEAX_VQA_ROOT to the directory containing generated VQA artifacts.")
+    return root
+
 async def async_qwen_vl_72b_infer(args, max_retries=6, retry_delay=5):
     """
     异步调用 Qwen-VL-72B 模型进行推理，支持重试和超时。
@@ -162,7 +169,7 @@ Your predictions will be evaluated through a non-reactive 4-second simulation wi
 """
 
 async def get_img_description_qa(img_path, img_type, token):
-    vqa_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/img_desc"
+    vqa_dir = os.path.join(_require_vqa_root(), "img_desc")
     file_path = os.path.join(vqa_dir, f"{token}.txt")
 
     if os.path.exists(file_path):
@@ -201,7 +208,7 @@ async def get_img_description_qa(img_path, img_type, token):
         return question, answer
 
 async def get_traffic_congestion_qa(cf_img_path, token):
-    vqa_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/traf_cong"
+    vqa_dir = os.path.join(_require_vqa_root(), "traf_cong")
     file_path = os.path.join(vqa_dir, f"{token}.txt")
 
     if os.path.exists(file_path):
@@ -230,7 +237,7 @@ async def get_traffic_congestion_qa(cf_img_path, token):
         return question, answer
 
 async def get_traffic_light_qa(cf_img_path, token):
-    vqa_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/traf_light"
+    vqa_dir = os.path.join(_require_vqa_root(), "traf_light")
     file_path = os.path.join(vqa_dir, f"{token}.txt")
 
     if os.path.exists(file_path):
@@ -261,7 +268,7 @@ async def get_traffic_light_qa(cf_img_path, token):
         return question, answer
         
 async def get_road_sign_qa(cf_img_path, token):
-    vqa_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/road_sign"
+    vqa_dir = os.path.join(_require_vqa_root(), "road_sign")
     file_path = os.path.join(vqa_dir, f"{token}.txt")
 
     if os.path.exists(file_path):
@@ -292,7 +299,7 @@ async def get_road_sign_qa(cf_img_path, token):
         return question, answer
 
 async def get_driving_influence_qa(cf_img_path, token):
-    vqa_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/driving_influence"
+    vqa_dir = os.path.join(_require_vqa_root(), "driving_influence")
     file_path = os.path.join(vqa_dir, f"{token}.txt")
 
     if os.path.exists(file_path):
@@ -325,7 +332,7 @@ async def get_driving_influence_qa(cf_img_path, token):
         return question, answer
 
 async def get_vru_qa(token, agent_boxes, agent_names, vru_dis_thresh=40.0):
-    vqa_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/vru"
+    vqa_dir = os.path.join(_require_vqa_root(), "vru")
     file_path = os.path.join(vqa_dir, f"{token}.txt")
 
     if os.path.exists(file_path):
@@ -373,7 +380,7 @@ async def get_vru_qa(token, agent_boxes, agent_names, vru_dis_thresh=40.0):
         return question, answer
 
 async def get_mot_pred_qa(token, agent_boxes, agent_names, agent_vel, dis_thresh=40.0):
-    vqa_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/mot_pred"
+    vqa_dir = os.path.join(_require_vqa_root(), "mot_pred")
     file_path = os.path.join(vqa_dir, f"{token}.txt")
     img_type = 'front'
     if os.path.exists(file_path):
@@ -588,7 +595,7 @@ def get_decision(ego_speed_plan, ego_path_plan):
 
 
 async def get_plan_qa(token, future_trajectory_points, history_trajectory, command_str):
-    vqa_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/plan"
+    vqa_dir = os.path.join(_require_vqa_root(), "plan")
     file_path = os.path.join(vqa_dir, f"{token}.txt")
 
     if os.path.exists(file_path):
@@ -633,7 +640,7 @@ async def get_plan_qa(token, future_trajectory_points, history_trajectory, comma
         return question, answer
 
 async def get_plan_explaination_qa(cf_img_path, token, future_trajectory_points, history_trajectory, command_str):
-    vqa_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/plan_explain"
+    vqa_dir = os.path.join(_require_vqa_root(), "plan_explain")
     file_path = os.path.join(vqa_dir, f"{token}.txt")
 
     if os.path.exists(file_path):
@@ -686,7 +693,7 @@ async def get_plan_explaination_qa(cf_img_path, token, future_trajectory_points,
         return question, answer
 
 async def get_driving_behavior_qa(cf_img_path, token, history_trajectory):
-    vqa_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/driving_behavior"
+    vqa_dir = os.path.join(_require_vqa_root(), "driving_behavior")
     file_path = os.path.join(vqa_dir, f"{token}.txt")
 
     if os.path.exists(file_path):
@@ -723,7 +730,7 @@ async def get_traj_results_qa(token):
     根据传入的 token，从 traj_results_new 目录中查找对应的 JSON 文件。
     如果存在，读取并返回其中的 question 和 answer；否则返回 None。
     """
-    base_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/traj_results_new"
+    base_dir = os.path.join(_require_vqa_root(), "traj_results_new")
     file_path = os.path.join(base_dir, f"{token}.json")
     
     if not os.path.exists(file_path):
@@ -749,7 +756,7 @@ def format_number(n, decimal_places=2):
 
 async def get_dis_cal_qa(cf_img_path, token, agent_boxes, agent_names, box_2d, image_width=None, image_height=None):
     # 文件存储路径
-    vqa_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/distance_calculation_new"
+    vqa_dir = os.path.join(_require_vqa_root(), "distance_calculation_new")
     file_path = os.path.join(vqa_dir, f"{token}.json")  # 保存为 JSON 文件
 
     # 如果文件已经存在，则直接加载数据
@@ -851,7 +858,7 @@ async def get_3d_info_qa(cf_img_path, token, agent_boxes, agent_names, box_2d, i
     import numpy as np
 
     # 定义保存问答数据的目录
-    vqa_dir = "/high_perf_store3/world-model/yongkangli/data/NAVSIM/dataset/vqa/3d_info_qa"
+    vqa_dir = os.path.join(_require_vqa_root(), "3d_info_qa")
     file_path = os.path.join(vqa_dir, f"{token}.json")
     
     # 如果文件已存在，则直接加载问答数据
