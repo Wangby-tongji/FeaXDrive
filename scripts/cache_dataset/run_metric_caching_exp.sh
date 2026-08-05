@@ -3,7 +3,7 @@ set -euo pipefail
 set -x
 
 source /path/to/miniconda3/etc/profile.d/conda.sh
-conda activate navsim-wby
+conda activate feaxdrive
 
 TRAIN_TEST_SPLIT=navtest
 
