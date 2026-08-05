@@ -3,7 +3,7 @@ set -euo pipefail
 
 # ===== conda =====
 source /path/to/miniconda3/etc/profile.d/conda.sh
-conda activate navsim-wby
+conda activate feaxdrive
 
 # ===== paths =====
 TRAIN_TEST_SPLIT="${TRAIN_TEST_SPLIT:-navtrain}"
