@@ -9,8 +9,6 @@
 
 </div>
 
-## Overview
-
 End-to-end diffusion planning has strong potential for autonomous driving, but generated trajectories may still violate trajectory-level feasibility: they can be locally irregular, kinematically infeasible, or inconsistent with the drivable area. FeaXDrive addresses this problem by moving feasibility modeling into **clean trajectory space**.
 
 <div align="center">
