@@ -174,10 +174,10 @@ MODE=fa    # feasibility-aware GRPO fine-tuning
 
 ```bash
 CKPT_DYN=/path/to/dyn_checkpoint.ckpt
-IMP_HIDDEN_CACHE=/path/to/imp_hidden_cache
-IMP_METRIC_CACHE=/path/to/imp_metric_cache
+HIDDEN_CACHE=/path/to/hidden_cache
+METRIC_CACHE=/path/to/metric_cache
 
-sbatch --export=ALL,MODE=fa,SPLIT=navlt_imp_trainval,EXP_GROUP=navlt_imp_fa_grpo,EXP_NAME=training_feaxdrive_fa_grpo_imp,NPROC_PER_NODE=4,MAX_EPOCHS=1,FA_MAX_EPOCHS=1,BATCH_SIZE=8,FA_BATCH_SIZE=8,USE_CACHE_WITHOUT_DATASET=true,FORCE_CACHE_COMPUTATION=false,HIDDEN_CACHE=${IMP_HIDDEN_CACHE},METRIC_CACHE=${IMP_METRIC_CACHE},CKPT_FEAX_IL=${CKPT_DYN},INIT_CKPT=${CKPT_DYN} scripts/repro/slurm/submit_train_feaxdrive.slurm
+sbatch --export=ALL,MODE=fa,SPLIT=navtrain,EXP_GROUP=fa_grpo,EXP_NAME=training_feaxdrive_fa_grpo,NPROC_PER_NODE=4,MAX_EPOCHS=1,FA_MAX_EPOCHS=1,BATCH_SIZE=8,FA_BATCH_SIZE=8,USE_CACHE_WITHOUT_DATASET=true,FORCE_CACHE_COMPUTATION=false,HIDDEN_CACHE=${HIDDEN_CACHE},METRIC_CACHE=${METRIC_CACHE},CKPT_FEAX_IL=${CKPT_DYN},INIT_CKPT=${CKPT_DYN} scripts/repro/slurm/submit_train_feaxdrive.slurm
 ```
 
 Default FA-GRPO reward configuration:
@@ -195,19 +195,19 @@ bc_coeff = 0.1
 Evaluate a dyn checkpoint:
 
 ```bash
-sbatch --export=ALL,MODE=dyn,SPLIT=navlt_imp_pure_test,BUILD_METRIC_CACHE=0,METRIC_CACHE=/path/to/metric_cache_navtest,CKPT_FEAX_DYN=/path/to/dyn_checkpoint.ckpt scripts/repro/slurm/submit_eval_feaxdrive.slurm
+sbatch --export=ALL,MODE=dyn,SPLIT=navtest,BUILD_METRIC_CACHE=0,METRIC_CACHE=/path/to/metric_cache_navtest,CKPT_FEAX_DYN=/path/to/dyn_checkpoint.ckpt scripts/repro/slurm/submit_eval_feaxdrive.slurm
 ```
 
 Evaluate with drivable-area guidance:
 
 ```bash
-sbatch --export=ALL,MODE=drivedyn,SPLIT=navlt_imp_pure_test,BUILD_METRIC_CACHE=0,METRIC_CACHE=/path/to/metric_cache_navtest,DRIVABLE_SDF_SOURCE=data_map,USE_DRIVABLE_GUIDANCE=true,CKPT_FEAX_DYN=/path/to/dyn_checkpoint.ckpt scripts/repro/slurm/submit_eval_feaxdrive.slurm
+sbatch --export=ALL,MODE=drivedyn,SPLIT=navtest,BUILD_METRIC_CACHE=0,METRIC_CACHE=/path/to/metric_cache_navtest,DRIVABLE_SDF_SOURCE=data_map,USE_DRIVABLE_GUIDANCE=true,CKPT_FEAX_DYN=/path/to/dyn_checkpoint.ckpt scripts/repro/slurm/submit_eval_feaxdrive.slurm
 ```
 
 Evaluate a FA-GRPO checkpoint:
 
 ```bash
-sbatch --export=ALL,MODE=fa_grpo,SPLIT=navlt_imp_pure_test,BUILD_METRIC_CACHE=0,METRIC_CACHE=/path/to/metric_cache_navtest,DRIVABLE_SDF_SOURCE=data_map,USE_DRIVABLE_GUIDANCE=true,CKPT_FEAX_FA_GRPO=/path/to/fa_grpo_checkpoint.ckpt,CKPT_FEAX_DYN=/path/to/dyn_checkpoint.ckpt scripts/repro/slurm/submit_eval_feaxdrive.slurm
+sbatch --export=ALL,MODE=fa_grpo,SPLIT=navtest,BUILD_METRIC_CACHE=0,METRIC_CACHE=/path/to/metric_cache_navtest,DRIVABLE_SDF_SOURCE=data_map,USE_DRIVABLE_GUIDANCE=true,CKPT_FEAX_FA_GRPO=/path/to/fa_grpo_checkpoint.ckpt,CKPT_FEAX_DYN=/path/to/dyn_checkpoint.ckpt scripts/repro/slurm/submit_eval_feaxdrive.slurm
 ```
 
 ## Repository Structure
