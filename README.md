@@ -15,15 +15,6 @@ This repository contains the cleaned NAVSIM implementation of the paper:
 > Baoyun Wang, Zhuoren Li, Ran Yu, Yu Che, Xinrui Zhang, Ming Liu, Jia Hu, Chen Lv, Bo Leng  
 > arXiv:2604.12656, 2026
 
-```bibtex
-@article{wang2026feaxdrive,
-  title={FeaXDrive: Feasibility-aware Trajectory-Centric Diffusion Planning for End-to-End Autonomous Driving},
-  author={Wang, Baoyun and Li, Zhuoren and Yu, Ran and Che, Yu and Zhang, Xinrui and Liu, Ming and Hu, Jia and Lv, Chen and Leng, Bo},
-  journal={arXiv preprint arXiv:2604.12656},
-  year={2026}
-}
-```
-
 ## Overview
 
 End-to-end diffusion planning has strong potential for autonomous driving, but generated trajectories may still violate trajectory-level feasibility: they can be locally irregular, kinematically infeasible, or inconsistent with the drivable area. FeaXDrive addresses this problem by moving feasibility modeling into **clean trajectory space**.
@@ -274,6 +265,15 @@ navsim/planning/script/
 - PDF: https://arxiv.org/pdf/2604.12656
 - DOI: https://doi.org/10.48550/arXiv.2604.12656
 - Google Scholar: https://scholar.google.com/scholar?q=FeaXDrive%3A+Feasibility-aware+Trajectory-Centric+Diffusion+Planning
+
+```bibtex
+@article{wang2026feaxdrive,
+  title={FeaXDrive: Feasibility-aware Trajectory-Centric Diffusion Planning for End-to-End Autonomous Driving},
+  author={Wang, Baoyun and Li, Zhuoren and Yu, Ran and Che, Yu and Zhang, Xinrui and Liu, Ming and Hu, Jia and Lv, Chen and Leng, Bo},
+  journal={arXiv preprint arXiv:2604.12656},
+  year={2026}
+}
+```
 
 ## Acknowledgements
 
