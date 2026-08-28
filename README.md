@@ -1,4 +1,4 @@
-# FeaXDrive: Feasibility-aware Trajectory-Centric Diffusion Planning for End-to-End Autonomous Driving
+# FeaXDrive: Feasibility-Aware Trajectory-Centric Diffusion Planning for End-to-End Autonomous Driving
 
 <div align="center">
 
